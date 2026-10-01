@@ -8,3 +8,4 @@
 *.xml text eol=lf
 *.pyt text eol=lf
 *.pdf binary
+*.pptx binary

@@ -43,6 +43,7 @@ Build deterministic ArcGIS Indoors demonstration data for Vertex Medical Center,
 - Generated Indoors business-key fields now inherit source field lengths. The live source uses 255 characters for `Levels.LEVEL_ID` and `Units.UNIT_ID`, preventing ArcGIS Pro's floor-awareness length warning in newly built outputs.
 - Inspection, repair, and work-order rows now carry both lifecycle and asset-point GUIDs. Direct `IndoorAssetLocation` relationship classes support related history in asset map popups while retaining lifecycle-centered relationships.
 - The original `Vertex_Assets.gdb` was verified unchanged; all six child tables remain empty.
+- An editable 16-slide PowerPoint, matching 16-page PDF, and consolidated workflow report now summarize the source-to-catalog flow, enrichment, procedural generation, relationships, LLM boundary, validation, recovery, use cases, and next actions. The PowerPoint is generated from `scripts/build_catalog_presentation.py` using native Office shapes.
 
 ## Fixed Contracts
 
@@ -82,6 +83,7 @@ The current localhost adapter is the recommended generator integration. A `.dlpk
 - Narrator tests: 5 passed, covering accepted output, malformed output, request budgets, transport failures, and enabled/disabled manifest telemetry.
 - Core non-schema suite: 47 passed, 0 failures, 0 errors in `arcgispro-DL37-py3`.
 - Current non-schema suite: 59 passed, including geometry detachment and recovery from an incomplete canonical catalog with complete prior and staged copies.
+- Presentation validation opened all 16 slides in PowerPoint, found no text-overflow candidates, verified a healthy Office package, rendered all slide previews, and confirmed a 16-page PDF.
 - Procedural floor-plan suite: 7 passed, including deterministic plans, profile coverage, exact per-facility room counts, non-overlap, room-program amenities, and organization-wide Level, Unit, and asset-ID uniqueness.
 - Stable-generation regression suite confirms indoor and exterior asset allocation is unchanged when source GlobalIDs change.
 - Full 1,003-asset planner sample: 298 active and 705 expired warranties; risk bands contain 86 Low, 346 Moderate, 356 High, and 215 Critical assets across 21 vendors.
@@ -148,6 +150,10 @@ Do not rely on the full command above for unattended completion on this workstat
 - `tests/test_narratives.py`: response validation and fallback tests.
 - `docs/vertex_assets_gdb_delta.md`: original Vertex schema audit.
 - `docs/organizational_catalog_data.md`: multisite catalog data contract.
+- `docs/catalog_workflow_report.md`: executive and technical workflow report.
+- `docs/Indoors_Asset_Catalog_Workflow.pptx`: editable presentation template.
+- `docs/Indoors_Asset_Catalog_Workflow.pdf`: portable presentation rendering.
+- `scripts/build_catalog_presentation.py`: reproducible PowerPoint/PDF builder.
 
 ## Update Template
 
