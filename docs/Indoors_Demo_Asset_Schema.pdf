@@ -1,0 +1,468 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 3038 >>
+stream
+BT
+/F1 10 Tf
+54 738 Td
+() Tj
+0 -13 Td
+(INDOORS DEMO ASSET SCHEMA) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(For the exact dataset, field-population, domain, relationship, contingent-value, and) Tj
+0 -13 Td
+(attribute-rule delta between the original medical Indoors geodatabase and the) Tj
+0 -13 Td
+(generated single-facility output, see [Vertex Assets Geodatabase) Tj
+0 -13 Td
+(Delta]\(vertex_assets_gdb_delta.md\).) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Schema relationships) Tj
+0 -13 Td
+(Facilities -> Levels -> Units) Tj
+0 -13 Td
+(Units -> Indoor Asset Location -> Asset Lifecycle) Tj
+0 -13 Td
+(Facilities -> Exterior Asset Points) Tj
+0 -13 Td
+(Asset Lifecycle -> Inspections, Repairs, Work Orders, External References, Field Work, Media) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Facilities, Levels, and Units remain ArcGIS Indoors-owned source records. The) Tj
+0 -13 Td
+(generator creates the AssetManagement feature dataset and its asset-management records) Tj
+0 -13 Td
+(in the copied output geodatabase.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(INSPECTION WORKFLOW) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Inspect Indoors Geodatabase produces a versioned JSON decision record for a selected) Tj
+0 -13 Td
+(source geodatabase and facility profile. Its inspection section is intended for) Tj
+0 -13 Td
+(review: compatibility, Unit and room-use counts, mapped and unmapped USE_TYPE values,) Tj
+0 -13 Td
+(and a recommended action. Full field, domain, relationship, and imagery discovery) Tj
+0 -13 Td
+(remains available in technical_details.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Generate Demo Assets can consume this report when the report source path, selected) Tj
+0 -13 Td
+(profile name, and profile version match its inputs. It uses the report to make profile) Tj
+0 -13 Td
+(coverage visible before it writes. It always repeats minimum live-source validation) Tj
+0 -13 Td
+(immediately before copying the geodatabase, because an inspection report cannot prove) Tj
+0 -13 Td
+(that the GDB has not changed.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Live-source validation requires Sites, Facilities, Levels, and Units, together with) Tj
+0 -13 Td
+(their business-key parent fields \(SITE_ID, FACILITY_ID, LEVEL_ID, and UNIT_ID\) and) Tj
+0 -13 Td
+(Units.USE_TYPE. This prevents a source from passing preflight when the hierarchy) Tj
+0 -13 Td
+(needed for generation is incomplete.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(INTEGRATION WORKFLOW) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Integrate Generated Assets combines generated records with a target Indoors workspace) Tj
+0 -13 Td
+(without modifying either input. It creates a new output geodatabase by copying the) Tj
+0 -13 Td
+(target and then recreates the generator-owned AssetManagement schema in that output.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Before it writes, the tool verifies that every SourceUnitGlobalID in generated indoor) Tj
+0 -13 Td
+(assets exists in the target Units class, and that every SourceFacilityGlobalID in) Tj
+0 -13 Td
+(generated exterior assets exists in the target Facilities class. It rejects a missing) Tj
+ET
+BT
+/F1 8 Tf
+503 30 Td
+(Page 1) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 3849 >>
+stream
+BT
+/F1 10 Tf
+54 738 Td
+(parent reference instead of creating orphaned records.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(File geodatabases create new GlobalIDs during record insertion. The tool therefore) Tj
+0 -13 Td
+(remaps generated location and lifecycle GlobalIDs in the new output and updates all) Tj
+0 -13 Td
+(dependent lifecycle foreign keys before validating the completed relationships. This) Tj
+0 -13 Td
+(preserves the target Indoors hierarchy and leaves the generated and target input) Tj
+0 -13 Td
+(geodatabases unchanged.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(GlobalIDs remain authoritative relationship keys, but they are not stable generation) Tj
+0 -13 Td
+(inputs because a copied or rebuilt file geodatabase assigns new values. Deterministic) Tj
+0 -13 Td
+(allocation instead uses business identities: Facility_ID|Level_ID|Unit_ID for indoor) Tj
+0 -13 Td
+(assets and Facility_ID for exterior assets. Rebuilding the same facility with the same) Tj
+0 -13 Td
+(profile, hierarchy, and seed therefore preserves generated asset IDs, quantities, and) Tj
+0 -13 Td
+(allocation. Relationship rows are remapped to the current output GlobalIDs, so) Tj
+0 -13 Td
+(consumers must not use old GlobalIDs as cross-build identifiers.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Input | Action | Result) Tj
+0 -13 Td
+(Generated demo GDB | Read-only source of generated records | Remains unchanged) Tj
+0 -13 Td
+(Target Indoors GDB | Copied before changes | Remains unchanged) Tj
+0 -13 Td
+(New integrated GDB | Receives copied target and remapped generated records | Standalone integrated workspace) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(FACILITY PROFILES) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(The tool selects assets through a versioned facility profile. A profile maps) Tj
+0 -13 Td
+(Units.USE_TYPE values to explicit templates; it does not infer a room type. Every) Tj
+0 -13 Td
+(template controls its asset type, asset class, quantity range, criticality,) Tj
+0 -13 Td
+(maintenance interval, and system dependencies.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Profile | Intended coverage | Asset examples) Tj
+0 -13 Td
+(Hospital | General hospital Indoors data with core clinical and building spaces | hospital beds, patient monitors, operating tables, imaging modalities, exam tables, HVAC equipment, switchgear, network racks, fire/life-safety equipment, exterior lighting and security cameras) Tj
+0 -13 Td
+(Vertex | Enhanced Hospital profile for the supplied Vertex medical facility; covers all discovered `USE_TYPE` values | all Hospital asset types plus pre-op stretchers, recovery beds, procedure tables, treatment chairs, laboratory analyzers, medication refrigerators, pharmacy workstations, therapy equipment, office workstations, meeting-room displays, parking lighting, and elevator control panels) Tj
+0 -13 Td
+(Government Office | General office and public-service spaces | office workstations, security equipment, IT/network hardware, building services, electrical equipment, and exterior lighting) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Vertex includes generic, common clinical assets where the source has a clinical use) Tj
+0 -13 Td
+(without a specific equipment inventory. For example, pre-op and post-op rooms receive) Tj
+0 -13 Td
+(preparation/recovery furniture and patient-monitoring assets; treatment, pediatric,) Tj
+0 -13 Td
+(psychiatric, outpatient, and infusion spaces receive treatment chairs, vital-signs) Tj
+0 -13 Td
+(monitors, and clinical handwash sinks. These are pseudo-assets for demonstration, not) Tj
+0 -13 Td
+(an asserted facility equipment inventory.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(VERTEX SOURCE COVERAGE) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(The Vertex profile explicitly maps the supplied source uses into these template) Tj
+0 -13 Td
+(groups:) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Source-use group | Vertex template group | Typical generated assets) Tj
+ET
+BT
+/F1 8 Tf
+503 30 Td
+(Page 2) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 4147 >>
+stream
+BT
+/F1 10 Tf
+54 738 Td
+(Pre-Op, Post-Op, Endoscopy | Preparation, recovery, procedure | stretchers, recovery beds, procedure tables, monitors) Tj
+0 -13 Td
+(Cardiology, Pediatrics, Infusion, Outpatient, Psychiatric | Clinical specialty or treatment | treatment chairs, diagnostic workstations, handwash sinks) Tj
+0 -13 Td
+(Laboratory, Pharmacy, Rehabilitation | Department-specific clinical support | lab analyzers, medication refrigerators, therapy equipment) Tj
+0 -13 Td
+(Office, Doctor Office, HR, Billing, Mail, Copy, Phone | Office or clinical office | workstations, office furniture, wall diagnostic sets) Tj
+0 -13 Td
+(Admission, Entry Lobby | Reception | desks, workstations, access-control readers) Tj
+0 -13 Td
+(Meeting, Training | Meeting room | video conferencing systems, presentation displays) Tj
+0 -13 Td
+(Kitchen, Nutrition, Locker Room, Lounge, Break Room | Staff or food service | lockers, commercial refrigerators, handwash sinks) Tj
+0 -13 Td
+(Restroom, Storage, Medical Records | Support services | plumbing fixtures, shelving, records storage/workstations) Tj
+0 -13 Td
+(Elevator, Parking Garage, Outdoor Space, Open to Below | Transport or common area | elevator control panels, parking lighting/cameras, common-area lighting) Tj
+0 -13 Td
+(Fire Closet, Mechanical, Electrical, Telecom, Janitorial, Stairway | Building infrastructure | fire panels, air handling units, switchgear, network racks, mop sinks, emergency lights) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(INTEGRATION BRIDGES) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(AssetExternalReference is an open, vendor-neutral mapping table. A single asset can) Tj
+0 -13 Td
+(have zero or many rows: for example, one Salesforce Asset reference and one IBM Maximo) Tj
+0 -13 Td
+(ASSETNUM reference. SystemName and SyncStatus are coded domains; ExternalObjectType,) Tj
+0 -13 Td
+(ExternalRecordID, and RecordUrl remain intentionally open to support other enterprise) Tj
+0 -13 Td
+(asset/resource-management systems. Store endpoint URLs, OAuth tokens, passwords, and) Tj
+0 -13 Td
+(other credentials outside the geodatabase.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(AssetFieldWorkLink bridges an asset to ArcGIS field workflows. It supports either) Tj
+0 -13 Td
+(ArcGIS Inspection or Survey123, identifies the target portal item and layer/form, and) Tj
+0 -13 Td
+(can store the related inspection/Survey123 GlobalID once a response exists. The) Tj
+0 -13 Td
+(application integration is deferred: these records are safe link contracts, not a) Tj
+0 -13 Td
+(claim that the toolbox publishes forms or calls ArcGIS Online.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(AssetMediaReference is a one-to-many link from an asset to OrientedImage, Panorama360,) Tj
+0 -13 Td
+(Photo, or Document records. It stores a reference to an ArcGIS Oriented Imagery) Tj
+0 -13 Td
+(Catalog item or a secured external image, together with optional capture and camera-) Tj
+0 -13 Td
+(orientation metadata. Images themselves and credentials are not stored in the) Tj
+0 -13 Td
+(geodatabase.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(CSV SOURCE ALIGNMENT) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(The generated AssetLifecycle and location records mirror the supplied) Tj
+0 -13 Td
+(Asset_Data_from_AMS.csv, Critical_Indoor_Assets.csv, and Medical_Equipment.csv) Tj
+0 -13 Td
+(contract: Asset_ID, category/subtype fields, make/model/serial, owner,) Tj
+0 -13 Td
+(maintainable/fixed flags, criticality rating, Unit_ID, Level_ID, Facility_ID, Site_ID,) Tj
+0 -13 Td
+(barcode, photo URL, and height. GlobalIDs remain the authoritative geodatabase) Tj
+0 -13 Td
+(relationship keys; business keys remain available for straightforward import/export.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(AssetInspection, AssetRepair, and AssetWorkOrder mirror the supplied Inspections.csv,) Tj
+0 -13 Td
+(Repairs.csv, and Work_Orders.csv fields. Each row has both AssetLifecycleGlobalID and) Tj
+0 -13 Td
+(AssetPointGlobalID. The first preserves lifecycle-centered analysis; the second) Tj
+0 -13 Td
+(directly relates the row to IndoorAssetLocation, making history available from asset-) Tj
+0 -13 Td
+(layer popups without traversing the intermediate lifecycle table.) Tj
+ET
+BT
+/F1 8 Tf
+503 30 Td
+(Page 3) Tj
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 3743 >>
+stream
+BT
+/F1 10 Tf
+54 738 Td
+() Tj
+0 -13 Td
+(When publishing, include IndoorAssetLocation, all three history tables, and their) Tj
+0 -13 Td
+(relationship classes in the same feature service. Configure related-record elements in) Tj
+0 -13 Td
+(the web map or application popup after publishing; the geodatabase relationships) Tj
+0 -13 Td
+(supply the association but do not automatically design the popup.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Generated Unit_ID, Level_ID, Facility_ID, and Site_ID text fields inherit their) Tj
+0 -13 Td
+(lengths from the corresponding source Indoors hierarchy fields when available. In) Tj
+0 -13 Td
+(particular, AssetManagement/IndoorAssetLocation.Level_ID must match) Tj
+0 -13 Td
+(Indoors/Levels.LEVEL_ID for ArcGIS Pro to configure the asset layer as floor aware) Tj
+0 -13 Td
+(without a field-length warning.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(ENRICHED ASSET PROFILE) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(The Vertex enrichment workflow adds deterministic planning fields to AssetLifecycle.) Tj
+0 -13 Td
+(These values are synthetic and internally consistent; they are intended for dashboard) Tj
+0 -13 Td
+(filtering, replacement planning, warranty analysis, and prioritization rather than as) Tj
+0 -13 Td
+(claims about real equipment.) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Field group | Fields | Contract) Tj
+0 -13 Td
+(Lifecycle | `LifecycleStage`, `ExpectedLifeYears`, `AssetAgeYears`, `RemainingLifeYears`, `ReplacementDueDate`, `ReplacementYear` | Dates and ages derive from the configured reference date and class-specific expected life range) Tj
+0 -13 Td
+(Inspection/maintenance | `LastInspectionDate`, `OverdueDays`, `MaintenanceIntervalDays`, `AnnualMaintenanceCost` | Latest inspection matches related history; maintenance interval comes from the asset template) Tj
+0 -13 Td
+(Financial | `EstimatedReplacementCost`, `PurchaseDate`, `PurchaseCost` | Purchase precedes commissioning and historical purchase cost is below estimated replacement cost) Tj
+0 -13 Td
+(Procurement/warranty | `Vendor`, `WarrantyExpirationDate`, `WarrantyStatus` | Vendors and warranty terms are class-specific; status is evaluated at the reference date) Tj
+0 -13 Td
+(Risk | `RiskScore`, `RiskLevel` | Score is 0-100 and combines criticality, condition, lifecycle stage, and maintenance lateness; levels are Low, Moderate, High, or Critical) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(INTEGRITY CONTROLS) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(Dataset | Controlled fields | Integrity mechanism) Tj
+0 -13 Td
+(`AssetLifecycle` | `AssetClass`, `Condition`, commissioning and maintenance dates | coded domains, AssetClass/Condition contingent values, and an Arcade constraint attribute rule) Tj
+0 -13 Td
+(`ExteriorAssetPoints` | `PlacementType`, `Condition` | coded domains) Tj
+0 -13 Td
+(`AssetExternalReference` | `SystemName`, `SyncStatus` | coded domains; indexed AssetGlobalID and external record ID) Tj
+0 -13 Td
+(`AssetFieldWorkLink` | `WorkflowType`, `Status` | coded domains; indexed AssetGlobalID) Tj
+0 -13 Td
+(`AssetInspection` | `Condition_Rating`, `Repair_Needed` | coded domains; indexed lifecycle and asset-point GlobalIDs) Tj
+0 -13 Td
+(`AssetRepair` | parent references | indexed lifecycle and asset-point GlobalIDs) Tj
+0 -13 Td
+(`AssetWorkOrder` | `Status` | coded domain; indexed lifecycle and asset-point GlobalIDs) Tj
+0 -13 Td
+(`AssetMediaReference` | `MediaType` | coded domain; indexed AssetLifecycleGlobalID) Tj
+0 -13 Td
+() Tj
+0 -13 Td
+(The generator places attached assets on the related Facility boundary. Exterior assets) Tj
+0 -13 Td
+(use a scale-relative outward buffer from that boundary, so they remain outside the) Tj
+0 -13 Td
+(Facility polygon in either projected or geographic coordinate systems.) Tj
+ET
+BT
+/F1 8 Tf
+503 30 Td
+(Page 4) Tj
+ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000140 00000 n 
+0000000210 00000 n 
+0000000336 00000 n 
+0000003426 00000 n 
+0000003552 00000 n 
+0000007453 00000 n 
+0000007579 00000 n 
+0000011778 00000 n 
+0000011906 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+15702
+%%EOF

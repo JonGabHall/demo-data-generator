@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en">
+	<Esri>
+		<CreaDate>20260917</CreaDate>
+		<CreaTime>16304300</CreaTime>
+		<ArcGISFormat>1.0</ArcGISFormat>
+		<SyncOnce>TRUE</SyncOnce>
+	</Esri>
+	<tool name="InspectIndoorsGeodatabase" displayname="Inspect Indoors Geodatabase" toolboxalias="indoorsdemogenerator">
+		<arcToolboxHelpPath>c:\program files\arcgis\pro\Resources\Help\gp</arcToolboxHelpPath>
+		<parameters>
+			<param datatype="DEWorkspace" direction="Input" displayname="Source Indoors Geodatabase" expression="{source_geodatabase}" name="source_geodatabase" parameterType="Required">
+				<dialogReference>Required input. Select the existing ArcGIS Indoors file geodatabase (.gdb) to inspect. The tool reads this workspace only; it does not add fields, records, domains, or relationships to it. The geodatabase must contain Facilities, Levels, and Units feature classes, and Facilities and Units must have GlobalID fields. Units must contain USE_TYPE.</dialogReference>
+			</param>
+			<param datatype="GPString" direction="Input" displayname="Facility Profile" expression="{profile_json}" name="profile_json" parameterType="Optional">
+				<dialogReference>Optional input. Select Hospital or Government Office from the dropdown to evaluate each distinct Units.USE_TYPE value against that bundled profile. The report identifies the resolved profile room use and flags values without an explicit mapping. Leave empty to inventory the geodatabase without evaluating profile coverage.</dialogReference>
+			</param>
+			<param datatype="DEFile" direction="Output" displayname="Inspection Report JSON" expression="{inspection_report}" name="inspection_report" parameterType="Required">
+				<dialogReference>Required output. Specify the JSON file to create. The report includes the discovered feature classes and tables, field and GlobalID inventories, Units count, spatial reference, coded domains, relationship classes, possible oriented-imagery sources, and USE_TYPE mapping results when a profile is supplied. An existing source geodatabase is never changed.</dialogReference>
+			</param>
+		</parameters>
+	</tool>
+	<dataIdInfo>
+		<idCitation>
+			<resTitle>Inspect Indoors Geodatabase</resTitle>
+		</idCitation>
+		<idAbs>Inspects an existing ArcGIS Indoors file geodatabase and writes a read-only JSON implementation report. Use this tool before generating demo data to verify the minimum Indoors hierarchy, understand available schema elements, identify possible oriented imagery sources, and review Units.USE_TYPE compatibility with a selected facility profile.</idAbs>
+		<searchKeys>
+			<keyword>ArcGIS Indoors</keyword>
+			<keyword>geodatabase inspection</keyword>
+			<keyword>USE_TYPE</keyword>
+			<keyword>oriented imagery</keyword>
+		</searchKeys>
+	</dataIdInfo>
+	<idInfo>
+		<descript>
+			<purpose>Provide a non-destructive compatibility and discovery report before the generated asset-management schema is created in a copied geodatabase.</purpose>
+		</descript>
+	</idInfo>
+</metadata>

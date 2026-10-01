@@ -1,0 +1,160 @@
+{
+  "version": "vertex-v1",
+  "room_use_aliases": {
+    "A/C DUCT SHAFT": "HVAC_SHAFT",
+    "ADMISSION": "RECEPTION",
+    "BILLING & FINANCE": "OFFICE",
+    "BREAK ROOM": "STAFF_SUPPORT",
+    "CARDIOLOGY": "CLINICAL_SPECIALTY",
+    "COPY ROOM": "OFFICE",
+    "CORRIDOR": "HALLWAY",
+    "ELECTRICAL ROOM": "ELECTRICAL_ROOM",
+    "ELEVATOR": "VERTICAL_TRANSPORT",
+    "ENDOSCOPY": "PROCEDURE_ROOM",
+    "ENTRY LOBBY": "RECEPTION",
+    "ENVIRONMENTAL SERVICES": "JANITORIAL_ROOM",
+    "EXAM ROOM": "EXAM_ROOM",
+    "FACILITIES & ENGINEERING": "MECHANICAL_ROOM",
+    "FIRE CLOSET": "FIRE_SAFETY_ROOM",
+    "GYM": "REHABILITATION",
+    "HALLWAY": "HALLWAY",
+    "HUMAN RESOURCES": "OFFICE",
+    "INFUSION": "CLINICAL_TREATMENT",
+    "JANITOR CLOSET": "JANITORIAL_ROOM",
+    "KITCHEN": "FOOD_SERVICE",
+    "LABORATORY": "LABORATORY",
+    "LOCKER ROOM/SHOWER": "STAFF_SUPPORT",
+    "LOBBY": "RECEPTION",
+    "LOUNGE": "STAFF_SUPPORT",
+    "MAIL ROOM": "OFFICE",
+    "MECHANICAL": "MECHANICAL_ROOM",
+    "MECHANICAL ROOM": "MECHANICAL_ROOM",
+    "MEDICAL RECORDS": "RECORDS",
+    "MEETING ROOM": "MEETING_ROOM",
+    "MOTHER'S ROOM": "CLINICAL_SUPPORT",
+    "NURSE STATION": "CLINICAL_SUPPORT",
+    "NUTRITION": "FOOD_SERVICE",
+    "OFFICE": "OFFICE",
+    "OFFICE - DOCTOR": "CLINICAL_OFFICE",
+    "OPEN TO BELOW": "COMMON_AREA",
+    "OPERATING ROOM": "OPERATING_ROOM",
+    "OPERATING THEATER": "OPERATING_ROOM",
+    "OUTDOOR SPACE": "COMMON_AREA",
+    "OUTPATIENT": "CLINICAL_TREATMENT",
+    "PARKING GARAGE": "PARKING",
+    "PATIENT BEDROOM": "PATIENT_ROOM",
+    "PATIENT CARE ROOM": "PATIENT_ROOM",
+    "PEDIATRICS": "CLINICAL_TREATMENT",
+    "PHARMACY": "PHARMACY",
+    "PHONE ROOM": "OFFICE",
+    "POST-OP ROOM": "RECOVERY_ROOM",
+    "POSTPARTUM": "PATIENT_ROOM",
+    "PRE-OP ROOM": "PREP_ROOM",
+    "PSYCHIATRIC": "CLINICAL_TREATMENT",
+    "RADIOLOGY": "IMAGING_ROOM",
+    "REHABILITATION": "REHABILITATION",
+    "RESTROOM": "RESTROOM",
+    "STAIRWAY": "STAIRWELL",
+    "STORAGE ROOM": "STORAGE",
+    "SURGERY": "OPERATING_ROOM",
+    "TELECOMMUNICATIONS ROOM": "TELECOM_ROOM",
+    "TRAINING ROOM": "MEETING_ROOM"
+  },
+  "room_uses": {
+    "PATIENT_ROOM": [
+      {"id":"HOSPITAL_BED","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","Medical Gas"]},
+      {"id":"PATIENT_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"NURSE_CALL_STATION","asset_class":"Communications Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}
+    ],
+    "OPERATING_ROOM": [
+      {"id":"OPERATING_TABLE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"Critical","maintenance_interval_days":90,"dependencies":["Electrical","Medical Gas"]},
+      {"id":"SURGICAL_LIGHT","asset_class":"Clinical Equipment","quantity":{"min":2,"max":3},"criticality":"Critical","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"ANESTHESIA_MACHINE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"Critical","maintenance_interval_days":90,"dependencies":["Electrical","Medical Gas"]}
+    ],
+    "IMAGING_ROOM": [
+      {"id":"IMAGING_MODALITY","asset_class":"Diagnostic Equipment","quantity":{"min":1,"max":1},"criticality":"Critical","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"PACS_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}
+    ],
+    "EXAM_ROOM": [
+      {"id":"EXAM_TABLE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":[]},
+      {"id":"CLINICAL_HANDWASH_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Plumbing"]},
+      {"id":"VITAL_SIGNS_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]}
+    ],
+    "PREP_ROOM": [
+      {"id":"PREP_STRETCHER","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"PREP_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"CLINICAL_HANDWASH_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Plumbing"]}
+    ],
+    "RECOVERY_ROOM": [
+      {"id":"RECOVERY_BED","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","Medical Gas"]},
+      {"id":"PATIENT_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"NURSE_CALL_STATION","asset_class":"Communications Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}
+    ],
+    "PROCEDURE_ROOM": [
+      {"id":"PROCEDURE_TABLE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"PROCEDURE_LIGHT","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"VITAL_SIGNS_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]}
+    ],
+    "CLINICAL_TREATMENT": [
+      {"id":"TREATMENT_CHAIR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":3},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"VITAL_SIGNS_MONITOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"CLINICAL_HANDWASH_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Plumbing"]}
+    ],
+    "CLINICAL_SPECIALTY": [
+      {"id":"SPECIALTY_EXAM_TABLE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"DIAGNOSTIC_WORKSTATION","asset_class":"Diagnostic Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}
+    ],
+    "CLINICAL_SUPPORT": [
+      {"id":"CLINICAL_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"NURSE_CALL_CONSOLE","asset_class":"Communications Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}
+    ],
+    "LABORATORY": [
+      {"id":"LAB_ANALYZER","asset_class":"Diagnostic Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]},
+      {"id":"LAB_REFRIGERATOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"LAB_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Plumbing"]}
+    ],
+    "PHARMACY": [
+      {"id":"MEDICATION_REFRIGERATOR","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical"]},
+      {"id":"PHARMACY_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"MEDICATION_STORAGE_CABINET","asset_class":"Furniture","quantity":{"min":1,"max":3},"criticality":"High","maintenance_interval_days":365,"dependencies":[]}
+    ],
+    "REHABILITATION": [
+      {"id":"THERAPY_TABLE","asset_class":"Clinical Equipment","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":365,"dependencies":[]},
+      {"id":"THERAPY_EQUIPMENT","asset_class":"Clinical Equipment","quantity":{"min":1,"max":3},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"]}
+    ],
+    "RECEPTION": [
+      {"id":"RECEPTION_DESK","asset_class":"Furniture","quantity":{"min":1,"max":2},"criticality":"Low","maintenance_interval_days":365,"dependencies":[]},
+      {"id":"WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":3},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"ACCESS_CONTROL_READER","asset_class":"Security Equipment","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]}
+    ],
+    "OFFICE": [
+      {"id":"OFFICE_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":3},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"OFFICE_FURNITURE","asset_class":"Furniture","quantity":{"min":1,"max":2},"criticality":"Low","maintenance_interval_days":365,"dependencies":[]}
+    ],
+    "CLINICAL_OFFICE": [
+      {"id":"CLINICAL_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"WALL_DIAGNOSTIC_SET","asset_class":"Clinical Equipment","quantity":{"min":1,"max":1},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"]}
+    ],
+    "MEETING_ROOM": [
+      {"id":"VIDEO_CONFERENCING_SYSTEM","asset_class":"Communications Equipment","quantity":{"min":1,"max":1},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]},
+      {"id":"PRESENTATION_DISPLAY","asset_class":"Communications Equipment","quantity":{"min":1,"max":2},"criticality":"Low","maintenance_interval_days":365,"dependencies":["Electrical"]}
+    ],
+    "STAFF_SUPPORT": [{"id":"STAFF_LOCKER","asset_class":"Furniture","quantity":{"min":1,"max":4},"criticality":"Low","maintenance_interval_days":365,"dependencies":[]}],
+    "FOOD_SERVICE": [{"id":"COMMERCIAL_REFRIGERATOR","asset_class":"Building Services","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":180,"dependencies":["Electrical"]},{"id":"HANDWASH_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Plumbing"]}],
+    "RECORDS": [{"id":"RECORDS_STORAGE_SYSTEM","asset_class":"Furniture","quantity":{"min":1,"max":3},"criticality":"Medium","maintenance_interval_days":365,"dependencies":[]},{"id":"RECORDS_WORKSTATION","asset_class":"IT Equipment","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}],
+    "RESTROOM": [{"id":"RESTROOM_FIXTURE","asset_class":"Plumbing Equipment","quantity":{"min":2,"max":5},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Plumbing"]}],
+    "STORAGE": [{"id":"STORAGE_SHELVING","asset_class":"Furniture","quantity":{"min":1,"max":4},"criticality":"Low","maintenance_interval_days":365,"dependencies":[]}],
+    "PARKING": [{"id":"PARKING_LIGHT_FIXTURE","asset_class":"Electrical Equipment","quantity":{"min":2,"max":6},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"]},{"id":"PARKING_SECURITY_CAMERA","asset_class":"Security Equipment","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"]}],
+    "VERTICAL_TRANSPORT": [{"id":"ELEVATOR_CONTROL_PANEL","asset_class":"Electrical Equipment","quantity":{"min":1,"max":1},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","Emergency Power"]}],
+    "COMMON_AREA": [{"id":"COMMON_AREA_LIGHT_FIXTURE","asset_class":"Electrical Equipment","quantity":{"min":1,"max":4},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"]}],
+    "FIRE_SAFETY_ROOM": [{"id":"FIRE_ALARM_PANEL","asset_class":"Fire and Life Safety","quantity":{"min":1,"max":1},"criticality":"Critical","maintenance_interval_days":180,"dependencies":["Electrical","Emergency Power"]}],
+    "MECHANICAL_ROOM": [{"id":"AIR_HANDLING_UNIT","asset_class":"Building Services","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":90,"dependencies":["Electrical","HVAC"]},{"id":"BUILDING_AUTOMATION_CONTROLLER","asset_class":"Building Services","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}],
+    "HVAC_SHAFT": [{"id":"FIRE_DAMPER","asset_class":"Fire and Life Safety","quantity":{"min":1,"max":4},"criticality":"High","maintenance_interval_days":365,"dependencies":["Fire Alarm"]}],
+    "HALLWAY": [{"id":"CORRIDOR_LIGHT_FIXTURE","asset_class":"Electrical Equipment","quantity":{"min":2,"max":8},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"]},{"id":"EXIT_SIGN","asset_class":"Fire and Life Safety","quantity":{"min":1,"max":3},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical"]}],
+    "ELECTRICAL_ROOM": [{"id":"SWITCHGEAR","asset_class":"Electrical Equipment","quantity":{"min":1,"max":2},"criticality":"Critical","maintenance_interval_days":180,"dependencies":["Electrical"]},{"id":"PANELBOARD","asset_class":"Electrical Equipment","quantity":{"min":2,"max":6},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical"]}],
+    "TELECOM_ROOM": [{"id":"NETWORK_RACK","asset_class":"IT Equipment","quantity":{"min":1,"max":4},"criticality":"High","maintenance_interval_days":180,"dependencies":["Electrical","HVAC"]},{"id":"WIRELESS_ACCESS_POINT","asset_class":"Communications Equipment","quantity":{"min":1,"max":3},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical","IT Network"]}],
+    "JANITORIAL_ROOM": [{"id":"MOP_SINK","asset_class":"Plumbing Equipment","quantity":{"min":1,"max":1},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Plumbing"]},{"id":"CHEMICAL_DISPENSER","asset_class":"Building Services","quantity":{"min":1,"max":2},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Plumbing"]}],
+    "STAIRWELL": [{"id":"EMERGENCY_LIGHT","asset_class":"Fire and Life Safety","quantity":{"min":1,"max":4},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","Emergency Power"]},{"id":"FIRE_ALARM_PULL_STATION","asset_class":"Fire and Life Safety","quantity":{"min":1,"max":2},"criticality":"High","maintenance_interval_days":365,"dependencies":["Electrical","Fire Alarm"]}],
+    "BUILDING_EXTERIOR": [{"id":"EXTERIOR_LIGHT_FIXTURE","asset_class":"Electrical Equipment","quantity":{"min":4,"max":12},"criticality":"Medium","maintenance_interval_days":365,"dependencies":["Electrical"],"placement_type":"Attached"},{"id":"EXTERIOR_SECURITY_CAMERA","asset_class":"Security Equipment","quantity":{"min":2,"max":6},"criticality":"Medium","maintenance_interval_days":180,"dependencies":["Electrical","IT Network"],"placement_type":"Attached"},{"id":"EMERGENCY_GENERATOR","asset_class":"Electrical Equipment","quantity":{"min":0,"max":1},"criticality":"Critical","maintenance_interval_days":180,"dependencies":["Fuel","Electrical","Emergency Power"],"placement_type":"Exterior"}]
+  }
+}

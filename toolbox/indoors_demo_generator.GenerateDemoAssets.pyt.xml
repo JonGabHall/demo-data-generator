@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en">
+	<Esri>
+		<CreaDate>20260917</CreaDate>
+		<CreaTime>16315100</CreaTime>
+		<ArcGISFormat>1.0</ArcGISFormat>
+		<SyncOnce>TRUE</SyncOnce>
+	</Esri>
+	<tool name="GenerateDemoAssets" displayname="Generate Demo Assets" toolboxalias="indoorsdemogenerator">
+		<arcToolboxHelpPath>c:\program files\arcgis\pro\Resources\Help\gp</arcToolboxHelpPath>
+		<parameters>
+			<param datatype="DEWorkspace" direction="Input" displayname="Source Indoors Geodatabase" expression="{source_geodatabase}" name="source_geodatabase" parameterType="Required">
+				<dialogReference>Required input. Select an existing ArcGIS Indoors file geodatabase (.gdb) containing Facilities, Levels, and Units. The source must contain GlobalID fields on Facilities and Units and a USE_TYPE field on Units. The source geodatabase is never modified.</dialogReference>
+			</param>
+			<param datatype="GPString" direction="Input" displayname="Facility Profile" expression="{profile_name}" name="profile_name" parameterType="Required">
+				<dialogReference>Required input. Select the bundled Hospital, Vertex, or Government Office profile. The profile determines the synthetic asset types created for each explicitly mapped Units.USE_TYPE value. Vertex extends the Hospital profile with explicit coverage for the supplied medical facility USE_TYPE values.</dialogReference>
+			</param>
+			<param datatype="DEFile" direction="Input" displayname="Inspection Report JSON" expression="{inspection_report}" name="inspection_report" parameterType="Optional">
+				<dialogReference>Optional input. Select the JSON report produced by Inspect Indoors Geodatabase for this exact source and facility profile. The tool verifies its source workspace, profile, and profile version, then displays its mapped and unmapped USE_TYPE summary. The live source is always revalidated before generation.</dialogReference>
+			</param>
+			<param datatype="DEFolder" direction="Input" displayname="Output Folder" expression="{output_folder}" name="output_folder" parameterType="Required">
+				<dialogReference>Required input. Select the ordinary folder in which to create the new geodatabase. Do not select a file geodatabase.</dialogReference>
+			</param>
+			<param datatype="GPString" direction="Input" displayname="Output Geodatabase Name" expression="{output_geodatabase_name}" name="output_geodatabase_name" parameterType="Required">
+				<dialogReference>Required input. Enter the new file geodatabase name, including the .gdb extension. Enter a name only, not a folder or full path.</dialogReference>
+			</param>
+			<param datatype="GPLong" direction="Input" displayname="Random Seed" expression="{seed}" name="seed" parameterType="Optional">
+				<dialogReference>Optional input. Enter a whole number from 0 through 2147483647; the default is 42. Reusing the same seed with the same source and profile produces the same synthetic records.</dialogReference>
+			</param>
+		</parameters>
+	</tool>
+	<dataIdInfo>
+		<idCitation>
+			<resTitle>Generate Demo Assets</resTitle>
+		</idCitation>
+		<idAbs>Copies an ArcGIS Indoors source into a new geodatabase, adds the generator-owned asset-management schema, and creates deterministic profile-driven indoor, exterior, and building-attached assets. An optional matching inspection report supplies an upfront room-use coverage decision; the tool always validates the live source before writing.</idAbs>
+		<searchKeys>
+			<keyword>ArcGIS Indoors</keyword>
+			<keyword>asset management</keyword>
+			<keyword>synthetic data</keyword>
+			<keyword>random seed</keyword>
+		</searchKeys>
+	</dataIdInfo>
+	<idInfo>
+		<descript>
+			<purpose>Create a safe copied workspace for profile-driven synthetic Indoors asset-management demo data without changing the source workspace.</purpose>
+		</descript>
+	</idInfo>
+</metadata>

@@ -1,0 +1,84 @@
+{
+  "version": "government-office-v1",
+  "room_use_aliases": {
+    "PRIVATE OFFICE": "OFFICE",
+    "OPEN OFFICE": "OFFICE",
+    "FILE ROOM": "SECURE_RECORDS_ROOM",
+    "SERVER ROOM": "IT_SERVER_ROOM",
+    "LOBBY": "PUBLIC_SERVICE_COUNTER",
+    "ENTRANCE": "EXTERIOR_ENTRANCE"
+  },
+  "room_uses": {
+    "OFFICE": [
+      {"id": "WORKSTATION", "asset_class": "IT Equipment", "quantity": {"min": 1, "max": 3}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "ERGONOMIC_CHAIR", "asset_class": "Furniture", "quantity": {"min": 1, "max": 3}, "criticality": "Low", "maintenance_interval_days": 730, "dependencies": []},
+      {"id": "MULTIFUNCTION_PRINTER", "asset_class": "IT Equipment", "quantity": {"min": 0, "max": 1}, "criticality": "Low", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "ACCESS_CONTROL_READER", "asset_class": "Security Equipment", "quantity": {"min": 0, "max": 1}, "criticality": "Medium", "maintenance_interval_days": 180, "dependencies": ["Electrical", "IT Network"]}
+    ],
+    "SECURE_RECORDS_ROOM": [
+      {"id": "ACCESS_CONTROL_PANEL", "asset_class": "Security Equipment", "quantity": {"min": 1, "max": 1}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "RECORDS_SCANNER", "asset_class": "IT Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "ENVIRONMENTAL_SENSOR", "asset_class": "Security Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]}
+    ],
+    "PUBLIC_SERVICE_COUNTER": [
+      {"id": "QUEUE_DISPLAY", "asset_class": "IT Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "SERVICE_COUNTER", "asset_class": "Furniture", "quantity": {"min": 1, "max": 4}, "criticality": "Low", "maintenance_interval_days": 730, "dependencies": []},
+      {"id": "ASSISTIVE_LISTENING_SYSTEM", "asset_class": "Communications Equipment", "quantity": {"min": 0, "max": 1}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical"]}
+    ],
+    "IT_SERVER_ROOM": [
+      {"id": "NETWORK_RACK", "asset_class": "IT Equipment", "quantity": {"min": 1, "max": 4}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical", "HVAC"]},
+      {"id": "UPS", "asset_class": "Electrical Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical"]},
+      {"id": "FIRE_SUPPRESSION_PANEL", "asset_class": "Fire and Life Safety", "quantity": {"min": 1, "max": 1}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical", "Fire Alarm"]}
+    ],
+    "EXTERIOR_ENTRANCE": [
+      {"id": "EXTERIOR_SECURITY_CAMERA", "asset_class": "Security Equipment", "quantity": {"min": 1, "max": 4}, "criticality": "Medium", "maintenance_interval_days": 180, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "ACCESSIBLE_ENTRY_BUTTON", "asset_class": "Security Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "EMERGENCY_INTERCOM", "asset_class": "Communications Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]}
+    ],
+    "MEETING_ROOM": [
+      {"id": "VIDEO_CONFERENCING_SYSTEM", "asset_class": "Communications Equipment", "quantity": {"min": 1, "max": 1}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]},
+      {"id": "PRESENTATION_DISPLAY", "asset_class": "Communications Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Low", "maintenance_interval_days": 365, "dependencies": ["Electrical"]}
+    ],
+    "RESTROOM": [
+      {"id": "RESTROOM_FIXTURE", "asset_class": "Plumbing Equipment", "quantity": {"min": 2, "max": 5}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Plumbing"]}
+    ],
+    "STAFF_SUPPORT": [
+      {"id": "BREAK_ROOM_APPLIANCE", "asset_class": "Building Services", "quantity": {"min": 1, "max": 3}, "criticality": "Low", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "STAFF_LOCKER", "asset_class": "Furniture", "quantity": {"min": 1, "max": 4}, "criticality": "Low", "maintenance_interval_days": 730, "dependencies": []}
+    ],
+    "STORAGE": [
+      {"id": "STORAGE_SHELVING", "asset_class": "Furniture", "quantity": {"min": 1, "max": 4}, "criticality": "Low", "maintenance_interval_days": 730, "dependencies": []}
+    ],
+    "STAIRWELL": [
+      {"id": "EMERGENCY_LIGHT", "asset_class": "Fire and Life Safety", "quantity": {"min": 1, "max": 4}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical", "Emergency Power"]},
+      {"id": "FIRE_ALARM_PULL_STATION", "asset_class": "Fire and Life Safety", "quantity": {"min": 1, "max": 2}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical", "Fire Alarm"]}
+    ],
+    "VERTICAL_TRANSPORT": [
+      {"id": "ELEVATOR_CONTROL_PANEL", "asset_class": "Electrical Equipment", "quantity": {"min": 1, "max": 1}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical", "Emergency Power"]}
+    ],
+    "BUILDING_EXTERIOR": [
+      {"id": "EXTERIOR_LIGHT_FIXTURE", "asset_class": "Electrical Equipment", "quantity": {"min": 4, "max": 12}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "ROOF_HVAC_UNIT", "asset_class": "Building Services", "quantity": {"min": 1, "max": 4}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Electrical", "HVAC"]},
+      {"id": "BACKUP_GENERATOR", "asset_class": "Electrical Equipment", "quantity": {"min": 0, "max": 1}, "criticality": "Critical", "maintenance_interval_days": 180, "dependencies": ["Fuel", "Electrical", "Emergency Power"]}
+    ],
+    "HALLWAY": [
+      {"id": "CORRIDOR_LIGHT_FIXTURE", "asset_class": "Electrical Equipment", "quantity": {"min": 2, "max": 8}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "EXIT_SIGN", "asset_class": "Fire and Life Safety", "quantity": {"min": 1, "max": 3}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "SECURITY_CAMERA", "asset_class": "Security Equipment", "quantity": {"min": 1, "max": 3}, "criticality": "Medium", "maintenance_interval_days": 180, "dependencies": ["Electrical", "IT Network"]}
+    ],
+    "ELECTRICAL_ROOM": [
+      {"id": "SWITCHGEAR", "asset_class": "Electrical Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Critical", "maintenance_interval_days": 180, "dependencies": ["Electrical"]},
+      {"id": "PANELBOARD", "asset_class": "Electrical Equipment", "quantity": {"min": 2, "max": 6}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical"]},
+      {"id": "ELECTRICAL_METER", "asset_class": "Electrical Equipment", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Electrical"]}
+    ],
+    "MECHANICAL_ROOM": [
+      {"id": "AIR_HANDLING_UNIT", "asset_class": "Building Services", "quantity": {"min": 1, "max": 2}, "criticality": "High", "maintenance_interval_days": 90, "dependencies": ["Electrical", "HVAC"]},
+      {"id": "BOILER", "asset_class": "Building Services", "quantity": {"min": 0, "max": 2}, "criticality": "High", "maintenance_interval_days": 180, "dependencies": ["Fuel", "Electrical", "Plumbing"]},
+      {"id": "BUILDING_AUTOMATION_CONTROLLER", "asset_class": "Building Services", "quantity": {"min": 1, "max": 2}, "criticality": "High", "maintenance_interval_days": 365, "dependencies": ["Electrical", "IT Network"]}
+    ],
+    "JANITORIAL_ROOM": [
+      {"id": "MOP_SINK", "asset_class": "Plumbing Equipment", "quantity": {"min": 1, "max": 1}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Plumbing"]},
+      {"id": "CHEMICAL_DISPENSER", "asset_class": "Building Services", "quantity": {"min": 1, "max": 2}, "criticality": "Medium", "maintenance_interval_days": 365, "dependencies": ["Plumbing"]}
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# ArcGIS generated and lock artifacts
+*.gdb/
+*.gdb.zip
+*.lock
+*.sr.lock
+
+# Build and package output
+build/
+dist/
+*.egg-info/
+
+# Local editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local logs and generated manifests
+*.log
+*_manifest.json
