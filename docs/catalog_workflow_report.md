@@ -183,5 +183,3 @@ Recommended next actions:
 - [Notebook Workflows](arcgis_pro_notebook_workflows.md)
 - [Schema](schema.md)
 - [Local LLM Integration](llm_integration.md)
-- `Indoors_Asset_Catalog_Workflow.pptx`
-- `Indoors_Asset_Catalog_Workflow.pdf`

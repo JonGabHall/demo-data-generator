@@ -32,3 +32,9 @@ Thumbs.db
 # Local logs and generated manifests
 *.log
 *_manifest.json
+
+# Local presentation drafts
+docs/Indoors_Asset_Catalog_Workflow.pptx
+docs/Indoors_Asset_Catalog_Workflow.pdf
+docs/~$*.pptx
+scripts/build_catalog_presentation.py

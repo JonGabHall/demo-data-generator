@@ -84,20 +84,12 @@ The same implementation is available as [scripts/enrich_vertex_asset_history.py]
 
 - [Catalog and Enrichment Guide](docs/catalog_and_enrichment_guide.md): end-to-end concepts and operator path.
 - [Workflow Summary and Report](docs/catalog_workflow_report.md): executive and technical report covering outcomes, workflow, controls, use cases, and next steps.
-- [Editable PowerPoint](docs/Indoors_Asset_Catalog_Workflow.pptx): 16-slide presentation template with editable diagrams, charts, and speaker-ready content.
-- [Presentation PDF](docs/Indoors_Asset_Catalog_Workflow.pdf): portable rendering of the complete presentation.
 - [Organizational Catalog Data](docs/organizational_catalog_data.md): validated counts, value ranges, sample records, and catalog contract.
 - [Notebook Workflows](docs/arcgis_pro_notebook_workflows.md): notebook responsibilities, flags, promotion, and recovery.
 - [Schema](docs/schema.md): datasets, fields, relationships, profiles, and integrity controls.
 - [Vertex Assets Geodatabase Delta](docs/vertex_assets_gdb_delta.md): schema added when the base Vertex asset geodatabase was generated.
 - [Local LLM Integration](docs/llm_integration.md): Ollama setup, response contract, telemetry, and alternatives.
 - [Worklog](docs/worklog.md): implementation history and workstation-specific validation notes.
-
-Regenerate the PowerPoint and PDF on Windows with Microsoft PowerPoint installed:
-
-```powershell
-python scripts/build_catalog_presentation.py
-```
 
 ## Test
 
