@@ -52,6 +52,8 @@ The proposed source, generated, external enterprise, ArcGIS field-work, and medi
 
 The multi-facility catalog's synthetic value ranges, lifecycle distribution, representative records, and validation contract are documented in [docs/organizational_catalog_data.md](docs/organizational_catalog_data.md).
 
+Asset categories and subtypes now use a versioned project taxonomy, with stable type-specific USD planning bands across every profile asset. Purchase, maintenance, warranty, inspection-estimate, and repair values are derived deterministically from asset identity and lifecycle context. These values are synthetic planning assumptions, not vendor quotes or authoritative enterprise codes; Vertex financial values remain as reviewed.
+
 The notebook purposes, Vertex-versus-organization scope, output geodatabases, recommended run sequences, and connections to the ArcGIS Indoors hierarchy are mapped in [docs/arcgis_pro_notebook_workflows.md](docs/arcgis_pro_notebook_workflows.md).
 
 `Integrate Generated Assets` creates a new integrated GDB from a generated GDB and a target Indoors GDB. It does not modify either input, verifies every Unit and Facility parent reference, recreates the generator-owned schema, remaps generated GlobalIDs for the output, and validates dependent relationships.
@@ -74,9 +76,11 @@ Narrative text is deterministic by default. To use a local model, set `LLM_ENDPO
 
 Run [scripts/check_local_llm.py](scripts/check_local_llm.py) before ArcPy enrichment. Setup commands, telemetry interpretation, and the separate ArcGIS `SequenceToSequence` DLPK option are documented in [docs/llm_integration.md](docs/llm_integration.md).
 
-To run both Vertex and the scaled six-facility catalog from ArcGIS Pro, use [scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb](scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb). Its first cells inspect the environment, verify the separately installed Ollama executable and service, list local models, and enforce the response contract before any geodatabase write.
+To run both Vertex and the scaled six-facility catalog from ArcGIS Pro, use [scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb](scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb). Ollama checks and the strict response probe run only when Vertex or catalog generation is enabled; the default metadata retrofit is deterministic and skips Ollama.
 
 The catalog keeps Vertex exactly as reviewed and procedurally creates the other four hospitals and Admin HQ from existing profiles. The planner needs no manual room data, CAD/BIM input, third-party geometry package, or new software. The combined notebook builds the catalog in a staging geodatabase and promotes it only after validation. A validated staged build is retained and reused if an ArcGIS lock prevents promotion.
+
+The combined notebook currently defaults to a metadata-only retrofit of the existing organization catalog. It fills the project taxonomy and type-specific synthetic pricing without rebuilding geometry; set `RUN_METADATA_RETROFIT = False` and `RUN_CATALOG = True` when intentionally generating a fresh catalog. The retrofit does not modify the original `Vertex_Assets.gdb`.
 
 The same implementation is available as [scripts/enrich_vertex_asset_history.py](scripts/enrich_vertex_asset_history.py) for ArcPy environments where standalone schema operations are stable.
 
@@ -100,4 +104,4 @@ $env:PYTHONPATH = "src"
 python -m pytest tests -q --ignore=tests/test_schema.py
 ```
 
-The current non-schema suite contains 59 tests. Run schema validation in ArcGIS Pro because the standalone ArcPy schema boundary is unstable on the validated workstation.
+The current non-schema suite contains 66 tests. Run schema validation in ArcGIS Pro because the standalone ArcPy schema boundary is unstable on the validated workstation.

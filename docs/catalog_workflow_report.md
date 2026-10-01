@@ -108,6 +108,16 @@ GlobalIDs and GUIDs are authoritative relationship keys inside each geodatabase.
 
 External-reference, field-work-link, and media-reference tables are intentionally empty. They define integration contracts without fabricating portal items, enterprise records, URLs, credentials, or media.
 
+## Taxonomy and Type-Specific Pricing
+
+The asset catalog uses the versioned `asset-type-usd-v1` project taxonomy. Category codes identify the ten broad asset classes; each supported asset type receives a deterministic subtype code and readable label. These codes are internal demonstration values, not an AMS or vendor classification crosswalk.
+
+Replacement planning now samples from type-level USD bands rather than broad class-wide ranges. The same asset identity reproduces the same cost. Purchase cost, purchase date, warranty, annual maintenance, repair estimates, and completed repair amounts derive from replacement value plus lifecycle context. Vertex keeps its reviewed financial values; the pricebook recalculates generated-facility financial values. An inspection estimate is populated only when `Repair_Needed = Y`.
+
+The pricebook covers every asset type/class pair in the three profiles and every distinct pair in the current catalog. Its prices are synthetic unit-level planning assumptions, not current market research, quotes, or budget commitments. Tax, freight, installation, service contracts, and regional adjustments are excluded; external production use requires an authoritative procurement price source and crosswalk.
+
+The shared writer, clean-build path, and metadata-only retrofit are implemented and covered by tests. The already-promoted local GDB has not yet been retrofitted; run the combined ArcGIS Pro notebook with `RUN_METADATA_RETROFIT = True` and `RUN_CATALOG = False` to populate its existing generated-facility rows without rebuilding geometry. Vertex financial values remain preserved.
+
 ## Deterministic and LLM Responsibilities
 
 | Deterministic Python | Optional local LLM |
@@ -131,7 +141,7 @@ The promoted catalog recorded 5,912 narrative opportunities, 500 requests sent, 
 - Purchase dates precede commissioning and purchase costs remain below replacement estimates.
 - Warranty and risk values are evaluated against the September 28, 2026 reference date.
 - Direct asset-history relationship classes support asset popup workflows.
-- The non-schema automated suite contains 59 passing tests.
+- The non-schema automated suite contains 66 passing tests.
 - Production schema and full catalog validation completed in the ArcGIS Pro notebook kernel.
 
 ## Operational Guidance

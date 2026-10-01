@@ -8,6 +8,7 @@ from indoors_demo_generator.enrichment import (
     EnrichmentConfig,
     build_enrichment_plan,
 )
+from indoors_demo_generator.asset_catalog import ASSET_TYPE_COST_BANDS
 
 
 def _assets(count: int = 1003) -> list[AssetSeed]:
@@ -23,21 +24,26 @@ def _assets(count: int = 1003) -> list[AssetSeed]:
         "Plumbing Equipment",
         "Security Equipment",
     )
-    return [
-        AssetSeed(
-            asset_id=f"asset-{index:04d}",
-            global_id=f"{{00000000-0000-0000-0000-{index:012d}}}",
-            asset_type=f"TYPE_{index % 17}",
-            asset_class=classes[index % len(classes)],
-            criticality=("Low", "Medium", "High", "Critical")[index % 4],
-            unit_id=f"UNIT-{index % 286:03d}",
-            level_id=f"VMC{index % 5 + 1}",
-            facility_id="VMC",
-            site_id="VMC",
-            maintenance_interval_days=(90, 180, 365)[index % 3],
+    assets = []
+    for index in range(count):
+        asset_class = classes[index % len(classes)]
+        asset_types = sorted(ASSET_TYPE_COST_BANDS[asset_class])
+        asset_type = asset_types[(index // len(classes)) % len(asset_types)]
+        assets.append(
+            AssetSeed(
+                asset_id=f"asset-{index:04d}",
+                global_id=f"{{00000000-0000-0000-0000-{index:012d}}}",
+                asset_type=asset_type,
+                asset_class=asset_class,
+                criticality=("Low", "Medium", "High", "Critical")[index % 4],
+                unit_id=f"UNIT-{index % 286:03d}",
+                level_id=f"VMC{index % 5 + 1}",
+                facility_id="VMC",
+                site_id="VMC",
+                maintenance_interval_days=(90, 180, 365)[index % 3],
+            )
         )
-        for index in range(count)
-    ]
+    return assets
 
 
 class EnrichmentPlanTests(unittest.TestCase):

@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable
 from uuid import uuid5
 
+from .asset_catalog import asset_taxonomy
 from .rules import FacilityProfile, GeneratedAsset, NAMESPACE, UnmappedRoomUseError, generate_assets
 from .schema import AssetManagementSchema
 
@@ -245,7 +246,8 @@ def _insert_lifecycle_records(
     with arcpy.da.SearchCursor(schema.indoor_asset_locations, ["Asset_ID", "GlobalID"]) as cursor:
         point_ids = {asset_id: global_id for asset_id, global_id in cursor}
     fields = [
-        "Asset_ID", "Name", "Description", "Maintainable", "Fixed", "Criticality_Rating",
+        "Asset_ID", "Name", "Description", "Category_Code", "Category_Type",
+        "Subtype_Code", "Category_Subtype", "Maintainable", "Fixed", "Criticality_Rating",
         "Unit_ID", "Level_ID", "Facility_ID", "Site_ID", "Barcode", "AssetPointGlobalID",
         "SourceUnitGlobalID", "RunID", "BusinessID", "AssetType", "AssetClass", "Condition",
         "Criticality", "CommissioningDate", "NextMaintenanceDate",
@@ -253,9 +255,12 @@ def _insert_lifecycle_records(
     with arcpy.da.InsertCursor(schema.asset_lifecycle, fields) as cursor:
         for record in records:
             unit, asset = record.source_unit, record.asset
+            taxonomy = asset_taxonomy(asset.template_id, asset.asset_class)
             cursor.insertRow((
                 asset.asset_id, asset.template_id.replace("_", " ").title(),
                 f"Synthetic {asset.template_id.replace('_', ' ').lower()} assigned to {asset.room_use}.",
+                taxonomy["Category_Code"], taxonomy["Category_Type"], taxonomy["Subtype_Code"],
+                taxonomy["Category_Subtype"],
                 "Y", "Y", _criticality_rating(asset.criticality), unit.unit_id, unit.level_id,
                 unit.facility_id, unit.site_id, asset.business_id, point_ids[asset.asset_id], unit.global_id,
                 run_id, asset.business_id, asset.template_id, asset.asset_class, asset.condition,

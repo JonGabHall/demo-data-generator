@@ -89,6 +89,21 @@ def _run_catalog_function():
 
 
 class CatalogNotebookPromotionTests(unittest.TestCase):
+    def test_notebook_defaults_to_existing_catalog_retrofit(self):
+        notebook = json.loads(NOTEBOOK_PATH.read_text(encoding="utf-8"))
+        code_cells = [
+            "".join(cell["source"])
+            for cell in notebook["cells"]
+            if cell["cell_type"] == "code"
+        ]
+        all_code = "\n".join(code_cells)
+
+        self.assertIn("RUN_CATALOG = False", all_code)
+        self.assertIn("RUN_METADATA_RETROFIT = True", all_code)
+        self.assertIn("def run_metadata_retrofit():", all_code)
+        self.assertIn("catalog_builder.retrofit_asset_metadata(", all_code)
+        self.assertIn("if generation_requested and not LLM_READY:", all_code)
+
     def test_recovers_incomplete_promotion_without_rebuilding(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)

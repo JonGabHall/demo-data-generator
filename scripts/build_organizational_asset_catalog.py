@@ -41,6 +41,13 @@ from indoors_demo_generator.narratives import (  # noqa: E402
     LocalJsonNarrator,
     narrative_run_metadata,
 )
+from indoors_demo_generator.asset_catalog import (  # noqa: E402
+    PRICEBOOK_VERSION,
+    estimated_repair_cost_for,
+    replacement_cost_for,
+    repair_cost_for,
+)
+from indoors_demo_generator.catalog_retrofit import retrofit_asset_metadata  # noqa: E402
 from indoors_demo_generator.rules import load_facility_profile  # noqa: E402
 from indoors_demo_generator.preflight import validate_indoors_source  # noqa: E402
 from indoors_demo_generator.schema import (  # noqa: E402
@@ -98,19 +105,6 @@ FACILITY_LIFECYCLE_BIAS = {
     "NN": -0.04,
     "RC": 0.16,
     "AHQ": -0.18,
-}
-
-REPLACEMENT_COST_RANGES = {
-    "Building Services": (8_000, 180_000),
-    "Clinical Equipment": (2_500, 95_000),
-    "Communications Equipment": (800, 18_000),
-    "Diagnostic Equipment": (12_000, 350_000),
-    "Electrical Equipment": (1_200, 125_000),
-    "Fire and Life Safety": (500, 28_000),
-    "Furniture": (250, 6_000),
-    "IT Equipment": (700, 14_000),
-    "Plumbing Equipment": (600, 22_000),
-    "Security Equipment": (450, 16_000),
 }
 
 MANUFACTURERS = {
@@ -964,7 +958,9 @@ def _enrich_lifecycle(
                     "commissioning": row[7].date(),
                     "last_inspection": row[19].date(),
                     "maintenance_interval": intervals.get(asset_type, 365),
-                    "replacement_cost": float(row[21]),
+                    "replacement_cost": replacement_cost_for(
+                        asset_type, asset_class, asset_id
+                    ),
                 }
                 continue
             stage = stage_by_id[asset_id]
@@ -1010,8 +1006,9 @@ def _enrich_lifecycle(
             if overdue_days > maintenance_interval and condition == "Operational" and condition_roll % 3 == 0:
                 condition = "Maintenance Due"
 
-            cost_min, cost_max = REPLACEMENT_COST_RANGES[asset_class]
-            replacement_cost = float(randomizer.randint(cost_min, cost_max))
+            replacement_cost = replacement_cost_for(
+                asset_type, asset_class, asset_id
+            )
             manufacturers = MANUFACTURERS[asset_class]
             manufacturer = manufacturers[randomizer.randrange(len(manufacturers))]
             model = f"{asset_type[:18]}-{100 + randomizer.randrange(900)}"
@@ -1110,7 +1107,7 @@ def _populate_related_tables(
                     "Y" if is_latest and asset["condition"] != "Operational" else "N"
                 )
                 estimated_cost = (
-                    round(asset["replacement_cost"] * (0.02 + (stable % 7) / 100), 2)
+                    estimated_repair_cost_for(asset["replacement_cost"], asset_id)
                     if repair_needed == "Y" else None
                 )
                 fallback = (
@@ -1202,7 +1199,7 @@ def _populate_related_tables(
                     providers[stable % len(providers)],
                     repair_type,
                     repair_notes,
-                    round(asset["replacement_cost"] * (0.01 + (stable % 8) / 100), 2),
+                    repair_cost_for(asset["replacement_cost"], asset_id),
                 )
             )
             repaired_assets.add(asset_id)
@@ -1777,6 +1774,14 @@ def main(narrator: LocalJsonNarrator | None = None) -> None:
         related_counts = _populate_related_tables(
             schema, dependencies_table, assets, preserved_asset_ids, narrator
         )
+        _checkpoint("stage=retrofit_asset_metadata status=started")
+        pricing_summary = retrofit_asset_metadata(
+            arcpy,
+            output_gdb,
+            reference_date=REFERENCE_DATE,
+            repository=REPOSITORY,
+        )
+        _checkpoint("stage=retrofit_asset_metadata status=complete")
         _checkpoint("stage=populate_catalog_history status=complete")
 
         _checkpoint("stage=validate status=started")
@@ -1798,6 +1803,8 @@ def main(narrator: LocalJsonNarrator | None = None) -> None:
             "facility_asset_generation": generated_counts,
             "preserved_vertex_history": vertex_counts,
             "related_table_counts": related_counts,
+            "synthetic_pricing": pricing_summary,
+            "taxonomy_version": PRICEBOOK_VERSION,
             "narrative_generation": narrative_run_metadata(narrator),
             "validation": validation,
             "synthetic_geographic_anchors": {

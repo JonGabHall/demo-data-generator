@@ -24,6 +24,11 @@ from indoors_demo_generator.enrichment import (  # noqa: E402
     EnrichmentPlan,
     build_enrichment_plan,
 )
+from indoors_demo_generator.asset_catalog import (  # noqa: E402
+    PRICE_BASIS,
+    PRICEBOOK_VERSION,
+    PRICE_CURRENCY,
+)
 from indoors_demo_generator.narratives import (  # noqa: E402
     LocalJsonNarrator,
     narrative_run_metadata,
@@ -327,6 +332,12 @@ def _apply_plan(schema: AssetManagementSchema, plan: EnrichmentPlan) -> None:
     point_ids = _key_guid_map(schema.indoor_asset_locations, "Asset_ID")
     lifecycle_fields = [
         "Asset_ID",
+        "AssetType",
+        "AssetClass",
+        "Category_Code",
+        "Category_Type",
+        "Subtype_Code",
+        "Category_Subtype",
         "Facility_ID",
         "Site_ID",
         "Condition",
@@ -361,6 +372,12 @@ def _apply_plan(schema: AssetManagementSchema, plan: EnrichmentPlan) -> None:
             cursor.updateRow(
                 (
                     record.asset_id,
+                    record.asset_type,
+                    record.asset_class,
+                    record.category_code,
+                    record.category_type,
+                    record.subtype_code,
+                    record.category_subtype,
                     record.facility_id,
                     record.site_id,
                     record.condition,
@@ -770,6 +787,12 @@ def main() -> None:
                 "end": config.inspection_end.isoformat(),
             },
             "seed": config.seed,
+            "taxonomy_version": PRICEBOOK_VERSION,
+            "synthetic_pricing": {
+                "pricebook_version": PRICEBOOK_VERSION,
+                "currency": PRICE_CURRENCY,
+                "price_basis": PRICE_BASIS,
+            },
             "narrative_generation": narrative_run_metadata(narrator),
             "validation": validation,
         }

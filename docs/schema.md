@@ -192,6 +192,8 @@ The Vertex profile explicitly maps the supplied source uses into these template 
 
 The generated `AssetLifecycle` and location records mirror the supplied `Asset_Data_from_AMS.csv`, `Critical_Indoor_Assets.csv`, and `Medical_Equipment.csv` contract: `Asset_ID`, category/subtype fields, make/model/serial, owner, maintainable/fixed flags, criticality rating, `Unit_ID`, `Level_ID`, `Facility_ID`, `Site_ID`, barcode, photo URL, and height. GlobalIDs remain the authoritative geodatabase relationship keys; business keys remain available for straightforward import/export.
 
+The populated `Category_Code`, `Category_Type`, `Subtype_Code`, and `Category_Subtype` values use the project's versioned synthetic taxonomy (`asset-type-usd-v1`). They classify the existing `AssetClass` and `AssetType`; the short codes are not asserted to be AMS, manufacturer, or other enterprise codes. Apply an authoritative crosswalk before exporting these values into a production asset-management system.
+
 `AssetInspection`, `AssetRepair`, and `AssetWorkOrder` mirror the supplied `Inspections.csv`, `Repairs.csv`, and `Work_Orders.csv` fields. Each row has both `AssetLifecycleGlobalID` and `AssetPointGlobalID`. The first preserves lifecycle-centered analysis; the second directly relates the row to `IndoorAssetLocation`, making history available from asset-layer popups without traversing the intermediate lifecycle table.
 
 When publishing, include `IndoorAssetLocation`, all three history tables, and their relationship classes in the same feature service. Configure related-record elements in the web map or application popup after publishing; the geodatabase relationships supply the association but do not automatically design the popup.
@@ -206,9 +208,11 @@ The Vertex enrichment workflow adds deterministic planning fields to `AssetLifec
 | --- | --- | --- |
 | Lifecycle | `LifecycleStage`, `ExpectedLifeYears`, `AssetAgeYears`, `RemainingLifeYears`, `ReplacementDueDate`, `ReplacementYear` | Dates and ages derive from the configured reference date and class-specific expected life range |
 | Inspection/maintenance | `LastInspectionDate`, `OverdueDays`, `MaintenanceIntervalDays`, `AnnualMaintenanceCost` | Latest inspection matches related history; maintenance interval comes from the asset template |
-| Financial | `EstimatedReplacementCost`, `PurchaseDate`, `PurchaseCost` | Purchase precedes commissioning and historical purchase cost is below estimated replacement cost |
-| Procurement/warranty | `Vendor`, `WarrantyExpirationDate`, `WarrantyStatus` | Vendors and warranty terms are class-specific; status is evaluated at the reference date |
+| Financial | `EstimatedReplacementCost`, `PurchaseDate`, `PurchaseCost` | Replacement estimates use deterministic USD bands keyed by exact `AssetType`; purchase precedes commissioning and purchase cost is 62-92% of replacement estimate |
+| Procurement/warranty | `Vendor`, `WarrantyExpirationDate`, `WarrantyStatus` | Vendor and warranty assumptions are deterministic; warranty status is evaluated at the reference date |
 | Risk | `RiskScore`, `RiskLevel` | Score is 0-100 and combines criticality, condition, lifecycle stage, and maintenance lateness; levels are Low, Moderate, High, or Critical |
+
+Pricing bands are synthetic planning assumptions, not vendor quotations or live market-price research. They represent equipment replacement and exclude taxes, freight, installation, service contracts, configuration, and regional adjustments. Inspection repair estimates and historical repair costs are deterministic percentages of the same type-level replacement estimate.
 
 ## Integrity Controls
 

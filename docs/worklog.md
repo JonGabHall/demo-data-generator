@@ -1,6 +1,6 @@
 # Project Worklog
 
-Last updated: 2026-09-30
+Last updated: 2026-10-01
 
 This is the continuation anchor for the project. Read this file before searching the repository or conversation history. Update it whenever a task, decision, path, command, or validation result changes. Keep completed history concise.
 
@@ -21,7 +21,11 @@ Build deterministic ArcGIS Indoors demonstration data for Vertex Medical Center,
 - Optional localhost narrative generation is implemented in `src/indoors_demo_generator/narratives.py`.
 - Local-LLM preflight is implemented in `scripts/check_local_llm.py`; run manifests record accepted, budget-fallback, invalid-response, and transport-fallback counts.
 - `scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb` orchestrates preflight, Vertex enrichment, and the scaled organizational catalog from ArcGIS Pro.
-- The combined notebook currently defaults to `RUN_VERTEX = False`, `RUN_CATALOG = True`, and `ALLOW_OVERWRITE = True`, resolves Ollama from its standard Windows path when `PATH` is stale, and uses a 120-second model timeout.
+- The combined notebook currently defaults to `RUN_VERTEX = False`, `RUN_CATALOG = False`, and `RUN_METADATA_RETROFIT = True` for a targeted existing-catalog migration; set `RUN_CATALOG = True` and disable the retrofit flag for a fresh build. LLM preflight is only required for generation.
+- A shared, versioned asset taxonomy and type-specific USD planning pricebook now covers every asset type/class pair in all three facility profiles. Synthetic category/subtype values and purchase, warranty, maintenance, risk, inspection-estimate, and repair-cost metadata use stable asset identities.
+- README and workflow-report content now summarizes the taxonomy and synthetic pricing assumptions; the local editable deck/PDF has been refreshed to 19 slides/pages with a taxonomy and pricing slide. Deck binaries and builder remain ignored and are not published.
+- `src/indoors_demo_generator/catalog_retrofit.py` preflights all asset mappings before updating an existing catalog and changes only lifecycle and history tables. Clean catalog builds invoke the same retrofit before validation; Vertex enrichment writes the same taxonomy and type-based prices.
+- The production catalog has not been modified by this source change; apply the retrofit by running the combined notebook in the ArcGIS Pro managed kernel with its checked-in retrofit-only defaults.
 - The combined notebook now clears cached `indoors_demo_generator` modules before loading workflow scripts, preventing a long-lived ArcGIS Pro kernel from pairing a current writer with an older schema factory.
 - The standalone Vertex notebook now requires explicit overwrite consent and removes partial output and manifest files after any workflow failure.
 - The catalog schema-test notebook preserves an existing catalog unless `FORCE_REBUILD = True`; an output without its manifest now fails closed.
@@ -82,7 +86,8 @@ The current localhost adapter is the recommended generator integration. A `.dlpk
 - Planner tests: 5 passed, including asset-profile temporal, financial, warranty, maintenance, and risk invariants.
 - Narrator tests: 5 passed, covering accepted output, malformed output, request budgets, transport failures, and enabled/disabled manifest telemetry.
 - Core non-schema suite: 47 passed, 0 failures, 0 errors in `arcgispro-DL37-py3`.
-- Current non-schema suite: 59 passed, including geometry detachment and recovery from an incomplete canonical catalog with complete prior and staged copies.
+- Current non-schema suite: 66 passed, including pricebook coverage and existing-catalog metadata retrofit.
+- Presentation package validation found 19 slides and 19 PDF pages and confirmed the taxonomy labels, representative price bands, synthetic-price disclaimer, and Vertex financial-preservation statement.
 - Procedural floor-plan suite: 7 passed, including deterministic plans, profile coverage, exact per-facility room counts, non-overlap, room-program amenities, and organization-wide Level, Unit, and asset-ID uniqueness.
 - Stable-generation regression suite confirms indoor and exterior asset allocation is unchanged when source GlobalIDs change.
 - Full 1,003-asset planner sample: 298 active and 705 expired warranties; risk bands contain 86 Low, 346 Moderate, 356 High, and 215 Critical assets across 21 vendors.

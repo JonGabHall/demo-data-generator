@@ -62,29 +62,29 @@ File: `scripts/run_llm_asset_enrichment_in_arcgis_pro.ipynb`
 This is the recommended operator notebook when Ollama narratives are wanted. It performs these stages:
 
 1. Inspects the ArcGIS Pro Python environment.
-2. Finds the Ollama Windows executable, including its standard per-user location when `PATH` is stale.
-3. Checks the localhost Ollama service.
-4. Confirms that `mistral` is installed.
-5. Sends a strict JSON narrative probe before any geodatabase write.
-6. Loads both the Vertex enrichment and organization catalog builders.
-7. Runs only the workflows enabled by its flags.
-8. Validates narrative telemetry and removes partial Vertex output after failure.
+2. Loads both the Vertex enrichment and organization catalog builders.
+3. Runs only the workflows enabled by its flags.
+4. If Vertex or catalog generation is enabled, checks the Ollama executable, localhost service, installed model, and strict JSON narrative contract.
+5. If only the existing-catalog metadata retrofit is enabled, skips all Ollama checks and prompts.
+6. Validates narrative telemetry and removes partial Vertex output after failure.
 
-The checked-in notebook is currently configured for the completed catalog-only run:
+The checked-in notebook currently defaults to a metadata-only retrofit of the existing catalog:
 
 ```python
 RUN_VERTEX = False
-RUN_CATALOG = True
+RUN_CATALOG = False
+RUN_METADATA_RETROFIT = True
 ALLOW_OVERWRITE = True
 ```
 
-These settings reuse the reviewed Vertex enrichment and build or recover the organization catalog. Change flags deliberately for the intended output; do not run both production paths against the same output concurrently.
+This path fills the internal category/subtype taxonomy and recalculates type-based USD planning costs on `AssetLifecycle`, `AssetInspection`, and `AssetRepair`. It does not rebuild geometry, hierarchy, or relationships and does not require Ollama. It also updates the catalog manifest when present. Close layers or tables holding a lock on the catalog before running it.
 
 To regenerate the full organization after reviewing Vertex, use:
 
 ```python
 RUN_VERTEX = False
 RUN_CATALOG = True
+RUN_METADATA_RETROFIT = False
 ALLOW_OVERWRITE = True
 ```
 
@@ -122,7 +122,7 @@ Later cells inspect the existing organization catalog. They can invoke the organ
 
 | Component | Vertex only | Full organization | Writes production data | Primary purpose |
 | --- | :---: | :---: | :---: | --- |
-| `run_llm_asset_enrichment_in_arcgis_pro.ipynb` | Yes, by default | Yes, when catalog flags are enabled | Yes | Ollama preflight and controlled orchestration |
+| `run_llm_asset_enrichment_in_arcgis_pro.ipynb` | No, by default | Existing-catalog retrofit by default; full rebuild is opt-in | Yes | Controlled generation or no-geometry metadata retrofit |
 | `enrich_vertex_asset_history_in_arcgis_pro.ipynb` | Yes | No | Yes | Focused Vertex enrichment |
 | `test_catalog_schema_in_arcgis_pro.ipynb` | Uses Vertex as schema source | Can verify or explicitly rebuild catalog | Probe by default; optional catalog rebuild | ArcGIS Pro schema diagnosis |
 | `enrich_vertex_asset_history.py` | Yes | No | Yes | Vertex writer used by both production notebooks |

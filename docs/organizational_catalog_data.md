@@ -69,18 +69,21 @@ Deterministic code generated all authoritative values. The local Mistral model w
 
 ## Value Ranges
 
-| Asset class | Expected life (years) | Estimated replacement cost |
-| --- | ---: | ---: |
-| Building Services | 15-25 | $8,000-$180,000 |
-| Clinical Equipment | 8-12 | $2,500-$95,000 |
-| Communications Equipment | 6-10 | $800-$18,000 |
-| Diagnostic Equipment | 8-12 | $12,000-$350,000 |
-| Electrical Equipment | 20-30 | $1,200-$125,000 |
-| Fire and Life Safety | 12-20 | $500-$28,000 |
-| Furniture | 10-15 | $250-$6,000 |
-| IT Equipment | 4-8 | $700-$14,000 |
-| Plumbing Equipment | 20-30 | $600-$22,000 |
-| Security Equipment | 7-12 | $450-$16,000 |
+| Asset type | Class | Expected life (years) | Synthetic USD replacement band |
+| --- | --- | ---: | ---: |
+| `IMAGING_MODALITY` | Diagnostic Equipment | 8-12 | $100,000-$1,500,000 |
+| `AIR_HANDLING_UNIT` | Building Services | 15-25 | $25,000-$250,000 |
+| `OPERATING_TABLE` | Clinical Equipment | 8-12 | $10,000-$100,000 |
+| `VITAL_SIGNS_MONITOR` | Clinical Equipment | 8-12 | $1,500-$8,000 |
+| `SWITCHGEAR` | Electrical Equipment | 20-30 | $10,000-$300,000 |
+| `WORKSTATION` | IT Equipment | 4-8 | $1,000-$4,000 |
+| `ERGONOMIC_CHAIR` | Furniture | 10-15 | $250-$1,500 |
+
+Every configured profile type has its own band in `src/indoors_demo_generator/asset_catalog.py`. The project samples a stable value within that type's band using the asset ID, so rebuilds preserve values for the same business identity while unlike equipment receives more differentiated estimates. `asset-type-usd-v1` also assigns a project taxonomy: class-level category code/type plus a stable subtype code and readable subtype label. These are internal demonstration codes, not authoritative enterprise classifications.
+
+All prices are synthetic unit-level planning estimates, not researched market quotations or vendor offers. They exclude tax, freight, installation, configuration, service contracts, and location-specific adjustments. Use a procurement-approved price source and crosswalk before treating them as budget commitments or exchanging codes with an external asset-management system.
+
+Derived financial fields use deterministic rules: purchase cost is 62-92% of replacement estimate and purchase date is 14-180 days before commissioning; annual maintenance is 1.5-4.5% of replacement estimate based on criticality, lifecycle stage, and condition; an inspection estimate is present only when `Repair_Needed = Y` and is 2-8% of replacement estimate; recorded repair cost is 1-8%. Warranty term ranges are class-specific and warranty status is evaluated at the configured reference date.
 
 Additional controlled values:
 
@@ -124,6 +127,10 @@ These examples illustrate field shape. Stable business IDs, dates, costs, and ma
   "Name": "Vital Signs Monitor",
   "AssetType": "VITAL_SIGNS_MONITOR",
   "AssetClass": "Clinical Equipment",
+  "Category_Code": "CLIN",
+  "Category_Type": "Clinical Equipment",
+  "Subtype_Code": "ST-88902D0C7B3",
+  "Category_Subtype": "Vital Signs Monitor",
   "Facility_ID": "PP",
   "Facility_Name": "Point Place",
   "City": "Seattle",
@@ -136,7 +143,7 @@ These examples illustrate field shape. Stable business IDs, dates, costs, and ma
   "ExpectedLifeYears": 10,
   "AssetAgeYears": 8.8,
   "RemainingLifeYears": 1.2,
-  "EstimatedReplacementCost": 18450.0,
+  "EstimatedReplacementCost": 3574.0,
   "Make": "Philips",
   "Model": "VITAL_SIGNS_MONIT-482",
   "Owner": "Clinical Engineering"
@@ -153,7 +160,7 @@ These examples illustrate field shape. Stable business IDs, dates, costs, and ma
   "Inspector": "Taylor Brooks",
   "Condition_Rating": "Fair",
   "Repair_Needed": "Y",
-  "Estimated_Repair_Cost": 922.5,
+  "Estimated_Repair_Cost": 107.22,
   "Repair_Type": "Corrective"
 }
 ```

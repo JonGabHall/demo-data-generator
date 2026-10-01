@@ -8,6 +8,19 @@ import hashlib
 import random
 from typing import Protocol
 
+from .asset_catalog import (
+    annual_maintenance_cost_for,
+    asset_taxonomy,
+    estimated_repair_cost_for,
+    purchase_cost_for,
+    purchase_date_for,
+    repair_cost_for,
+    replacement_cost_for,
+    risk_level_for,
+    risk_score_for,
+    warranty_expiration_for,
+)
+
 
 EXPECTED_LIFE_RANGES = {
     "Building Services": (15, 25),
@@ -20,19 +33,6 @@ EXPECTED_LIFE_RANGES = {
     "IT Equipment": (4, 8),
     "Plumbing Equipment": (20, 30),
     "Security Equipment": (7, 12),
-}
-
-REPLACEMENT_COST_RANGES = {
-    "Building Services": (8_000, 180_000),
-    "Clinical Equipment": (2_500, 95_000),
-    "Communications Equipment": (800, 18_000),
-    "Diagnostic Equipment": (12_000, 350_000),
-    "Electrical Equipment": (1_200, 125_000),
-    "Fire and Life Safety": (500, 28_000),
-    "Furniture": (250, 6_000),
-    "IT Equipment": (700, 14_000),
-    "Plumbing Equipment": (600, 22_000),
-    "Security Equipment": (450, 16_000),
 }
 
 MANUFACTURERS = {
@@ -60,20 +60,6 @@ VENDORS = {
     "Plumbing Equipment": ("Ferguson", "Grainger", "Winsupply"),
     "Security Equipment": ("Convergint", "Presidio", "Securitas Technology"),
 }
-
-WARRANTY_YEAR_RANGES = {
-    "Building Services": (2, 5),
-    "Clinical Equipment": (2, 4),
-    "Communications Equipment": (1, 3),
-    "Diagnostic Equipment": (2, 5),
-    "Electrical Equipment": (2, 5),
-    "Fire and Life Safety": (2, 5),
-    "Furniture": (5, 10),
-    "IT Equipment": (1, 3),
-    "Plumbing Equipment": (2, 5),
-    "Security Equipment": (2, 4),
-}
-
 
 class NarrativeProvider(Protocol):
     def narrate(self, record_type: str, facts: dict[str, object], fallback: str) -> str:
@@ -120,6 +106,8 @@ class EnrichmentConfig:
 @dataclass(frozen=True)
 class LifecycleUpdate:
     asset_id: str
+    asset_type: str
+    asset_class: str
     facility_id: str
     site_id: str
     condition: str
@@ -147,6 +135,10 @@ class LifecycleUpdate:
     annual_maintenance_cost: float
     risk_score: int
     risk_level: str
+    category_code: str
+    category_type: str
+    subtype_code: str
+    category_subtype: str
 
 
 @dataclass(frozen=True)
@@ -274,30 +266,34 @@ def build_enrichment_plan(
             condition = "Maintenance Due" if condition_roll < 8 else "Operational"
         manufacturers = MANUFACTURERS[asset.asset_class]
         make = manufacturers[randomizer.randrange(len(manufacturers))]
-        cost_min, cost_max = REPLACEMENT_COST_RANGES[asset.asset_class]
-        replacement_cost = float(randomizer.randint(cost_min, cost_max))
+        replacement_cost = replacement_cost_for(
+            asset.asset_type, asset.asset_class, asset.asset_id
+        )
         vendors = VENDORS[asset.asset_class]
         vendor = vendors[randomizer.randrange(len(vendors))]
-        purchase_date = commissioning_date - timedelta(days=randomizer.randint(14, 180))
-        purchase_cost = round(replacement_cost * randomizer.uniform(0.62, 0.92), 2)
-        warranty_min, warranty_max = WARRANTY_YEAR_RANGES[asset.asset_class]
-        warranty_years = randomizer.randint(warranty_min, warranty_max)
-        warranty_expiration_date = commissioning_date + timedelta(
-            days=round(warranty_years * 365.25)
+        purchase_date = purchase_date_for(commissioning_date, asset.asset_id)
+        purchase_cost = purchase_cost_for(replacement_cost, asset.asset_id)
+        warranty_expiration_date = warranty_expiration_for(
+            commissioning_date, asset.asset_class, asset.asset_id
         )
         warranty_status = (
             "Active" if warranty_expiration_date >= config.reference_date else "Expired"
         )
-        annual_maintenance_rate = (
-            0.015
-            + ("Low", "Medium", "High", "Critical").index(asset.criticality) * 0.005
-            + (0.01 if stage == "Retrofit/Replacement" else 0.0)
-            + (0.005 if condition != "Operational" else 0.0)
+        annual_maintenance_cost = annual_maintenance_cost_for(
+            replacement_cost, asset.criticality, stage, condition
         )
-        annual_maintenance_cost = round(replacement_cost * annual_maintenance_rate, 2)
-        risk_score = _risk_score(asset, condition, stage, overdue_days)
+        risk_score = risk_score_for(
+            asset.criticality,
+            condition,
+            stage,
+            overdue_days,
+            asset.maintenance_interval_days,
+        )
+        taxonomy = asset_taxonomy(asset.asset_type, asset.asset_class)
         lifecycle_record = LifecycleUpdate(
             asset_id=asset.asset_id,
+            asset_type=asset.asset_type,
+            asset_class=asset.asset_class,
             facility_id=asset.facility_id,
             site_id=asset.site_id,
             condition=condition,
@@ -326,7 +322,11 @@ def build_enrichment_plan(
             maintenance_interval_days=asset.maintenance_interval_days,
             annual_maintenance_cost=annual_maintenance_cost,
             risk_score=risk_score,
-            risk_level=_risk_level(risk_score),
+            risk_level=risk_level_for(risk_score),
+            category_code=taxonomy["Category_Code"],
+            category_type=taxonomy["Category_Type"],
+            subtype_code=taxonomy["Subtype_Code"],
+            category_subtype=taxonomy["Category_Subtype"],
         )
         lifecycle.append(lifecycle_record)
         inspections.extend(
@@ -348,7 +348,7 @@ def build_enrichment_plan(
                     "Vertex Clinical Engineering",
                     "Corrective Repair" if condition != "Operational" else "Preventive Service",
                     _narrate(narrator, "repair", _facts(asset, condition, stage), fallback),
-                    round(replacement_cost * (0.01 + _stable_number(asset.asset_id, 8) / 100), 2),
+                    repair_cost_for(replacement_cost, asset.asset_id),
                 )
             )
         if asset.asset_id in historical_ids:
@@ -448,7 +448,9 @@ def _inspection_history(
                 )
                 if latest
                 else fallback,
-                round(lifecycle.estimated_replacement_cost * 0.04, 2)
+                estimated_repair_cost_for(
+                    lifecycle.estimated_replacement_cost, asset.asset_id
+                )
                 if repair_needed == "Y"
                 else None,
                 "Corrective" if repair_needed == "Y" else "Preventive",
